@@ -3,9 +3,9 @@ from datetime import datetime
 date_format = "%d-%m-%Y"
 TYPES = {'I': 'Income', 'E': 'Expense'}
 
-def get_date(prompt, allowd_default=False):
+def get_date(prompt, allowed_default=False):
     date_str = input(prompt)
-    if allowd_default and not date_str:
+    if allowed_default and not date_str:
         return datetime.today().strftime(date_format)
     
     try:
@@ -13,7 +13,7 @@ def get_date(prompt, allowd_default=False):
         return valid_date.strftime(date_format)
     except ValueError:
         print("Invalid date format. Please enter the transaction date in 'dd-mm-yyyy' format.")
-        return get_date(prompt, allowd_default)
+        return get_date(prompt, allowed_default)
 
 def get_amount():
     try:
@@ -30,7 +30,7 @@ def get_type():
     if type in TYPES:
         return TYPES[type]
 
-    print("Invalid transcation type. Please enter 'I' for Income or 'E' for Expense.")
+    print("Invalid transaction type. Please enter 'I' for Income or 'E' for Expense.")
     return get_type()
 
 def get_description():

@@ -62,7 +62,7 @@ def add():
     CSV.initialise_csv()
     date = get_date(
         "Enter the transaction date (dd-mm-yyyy) or press 'Enter' for today's date: ", 
-        allowd_default=True,
+        allowed_default=True,
     )
     amount = get_amount()
     type = get_type()
@@ -72,8 +72,8 @@ def add():
 def plot_transactions(df):
     df.set_index('Date', inplace=True)
 
-    income_df = df[df['Type'] == 'Income'].resample("D").sum().reindex(df.index, fill_value=0)
-    expense_df = df[df['Type'] == 'Expense'].resample("D").sum().reindex(df.index, fill_value=0)
+    income_df = df[df['Type'] == 'Income'].resample("D")['Amount'].sum().reindex(df.index, fill_value=0)
+    expense_df = df[df['Type'] == 'Expense'].resample("D")['Amount'].sum().reindex(df.index, fill_value=0)
 
     plt.figure(figsize=(10, 5))
     plt.plot(income_df.index, income_df['Amount'], label='Income', color='g')
@@ -100,6 +100,8 @@ def main():
             end_date = get_date("Enter the end date (dd-mm-yyyy): ")
             df = CSV.get_transactions(start_date, end_date)
             if input("Do you want to plot the transactions? (y/n): ").lower() == 'y':
+                if df.empty:
+                    return
                 plot_transactions(df)
         elif choice == '3':
             break
